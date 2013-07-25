@@ -3,7 +3,7 @@
 return new \Phalcon\Config(array(
 	'database' => array(
 		'adapter'     => 'Sqlite',
-		'dbname'      => __DIR__ . '../../data/vokuro.db',
+		'dbname'      => __DIR__ . '/../../data/vokuro.db',
 	),
 	'application' => array(
 		'controllersDir' => __DIR__ . '/../../app/controllers/',

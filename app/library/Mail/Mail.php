@@ -3,12 +3,11 @@
 namespace Vokuro\Mail;
 
 use Phalcon\Mvc\User\Component,
-	Swift_Message as Message,
-	Swift_SmtpTransport as Smtp,
 	Vokuro\Models\Users,
-	Phalcon\Mvc\View;
+	Phalcon\Mvc\View,
+	PHPMailer;
 
-require_once __DIR__ . '/../../../vendor/Swift/swift_required.php';
+require_once __DIR__ . '/../../../vendor/PHPMailer/class.phpmailer.php';
 require_once __DIR__ . '/../../../vendor/AWSSDKforPHP/sdk.class.php';
 
 /**
@@ -75,7 +74,7 @@ class Mail extends Component
 	}
 
 	/**
-	 * Sends e-mails via AmazonSES based on predefined templates
+     * Sends e-mails via AmazonSES based on predefined templates
 	 *
 	 * @param array $to
 	 * @param string $subject
@@ -90,34 +89,38 @@ class Mail extends Component
 
 		$template = $this->getTemplate($name, $params);
 
-		// Create the message
-		$message = Message::newInstance()
-  			->setSubject($subject)
-  			->setTo($to)
-  			->setFrom(array(
-  				$mailSettings->fromEmail => $mailSettings->fromName
-  			))
-  			->setBody($template, 'text/html');
+		//Create a new PHPMailer instance
+        $mail = new PHPMailer();
+        //$mail->SMTPDebug  = 2;
+        //Set the subject line
+        $mail->Subject = $subject;
+        //Set who the message is to be sent to
+        foreach($to as $email=>$name) {
+            $mail->AddAddress($email, $name);
+    	}
+        //Set who the message is to be sent from
+        $mail->SetFrom($mailSettings->fromEmail, $mailSettings->fromName);
+        //Read an HTML message body from an external file, convert referenced images to embedded, convert HTML into a basic plain-text alternative body
+        $mail->MsgHTML($template, dirname(__FILE__));
 
-  		if ($this->_directSmtp) {
+  		if ($this->_directSmtp || ($this->config->amazon->AWSAccessKeyId == '' && isset($mailSettings->smtp))) {
+  			$mail->IsSMTP();
+            //Set the hostname of the mail server
+            $mail->Host = (isset($mailSettings->smtp->security)?$mailSettings->smtp->security.'://':'') . $mailSettings->smtp->server;
+            //Set the SMTP port number - likely to be 25, 465 or 587
+            $mail->Port = $mailSettings->smtp->port;
+            //Whether to use SMTP authentication
+            $mail->SMTPAuth = isset($mailSettings->smtp->security)?true:false;
+            
+            //Username to use for SMTP authentication
+            $mail->Username   = $mailSettings->smtp->username;
+            //Password to use for SMTP authentication
+            $mail->Password   = $mailSettings->smtp->password;
 
-	  		if (!$this->_transport) {
-				$this->_transport = Smtp::newInstance(
-					$mailSettings->smtp->server,
-					$mailSettings->smtp->port,
-					$mailSettings->smtp->security
-				)
-		  			->setUsername($mailSettings->smtp->username)
-		  			->setPassword($mailSettings->smtp->password);
-		  	}
-
-		  	// Create the Mailer using your created Transport
-			$mailer = \Swift_Mailer::newInstance($this->_transport);
-
-			return $mailer->send($message);
+			return $mail->Send();
 
 		} else {
-			return $this->_amazonSESSend($message->toString());
+			return $this->_amazonSESSend($mail->GetSentMIMEMessage());
 		}
 
 	}
