@@ -2,11 +2,8 @@
 
 return new \Phalcon\Config(array(
 	'database' => array(
-		'adapter'     => 'Mysql',
-		'host'        => '127.0.0.1',
-		'username'    => 'root',
-		'password'    => '',
-		'dbname'      => 'vokuro',
+		'adapter'     => 'Sqlite',
+		'dbname'      => __DIR__ . '../../data/vokuro.db',
 	),
 	'application' => array(
 		'controllersDir' => __DIR__ . '/../../app/controllers/',
