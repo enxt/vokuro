@@ -26,5 +26,9 @@
 		</div>
 
 	</form>
+    
+    <div>
+        {{ link_to("session/hlogin?provider=google", "google login") }}
+    </div>
 
 </div>

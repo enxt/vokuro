@@ -56,6 +56,16 @@ class Users extends Model
 	 * @var string
 	 */
 	public $active;
+    
+    /**
+     * @var string
+	 */
+	public $provider;
+    
+    /**
+     * @var string
+	 */
+	public $identifier;
 
 	/**
 	 * Before create the user assign a password
@@ -80,7 +90,7 @@ class Users extends Model
 		}
 
 		//The account must be confirmed via e-mail
-		$this->active = 'N';
+		$this->active = (!empty($this->provider) && !empty($this->identifier))?'Y':'N';
 
 		//The account is not suspended by default
 		$this->suspended = 'N';

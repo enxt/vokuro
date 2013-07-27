@@ -1,5 +1,5 @@
 /*
-QLite Data Transfer
+SQLite Data Transfer
 
 Source Server         : vokurosqlite
 Source Server Version : 30706
@@ -237,7 +237,9 @@ CREATE TABLE "users" (
 "profilesId"  INTEGER NOT NULL,
 "banned"  TEXT(1) NOT NULL,
 "suspended"  TEXT(1) NOT NULL,
-"active"  TEXT(1)
+"active"  TEXT(1),
+"provider" TEXT(20),
+"identifier" TEXT(200)
 );
 
 CREATE INDEX "idx_users_profilesId" ON "users" ("profilesId");
@@ -245,7 +247,7 @@ CREATE INDEX "idx_users_profilesId" ON "users" ("profilesId");
 -- ----------------------------
 -- Records of users
 -- ----------------------------
-INSERT INTO "users" VALUES (2, 'Bob Burnquist', 'bob@phalconphp.com', '$2a$08$Lx1577KNhPa9lzFYKssadetmbhaveRtCoVaOnoXXxUIhrqlCJYWCW', 'N', 1, 'N', 'N', 'Y');
-INSERT INTO "users" VALUES (14, 'Erik', 'erik@phalconphp.com', '$2a$08$f4llgFQQnhPKzpGmY1sOuuu23nYfXYM/EVOpnjjvAmbxxDxG3pbX.', 'N', 1, 'Y', 'Y', 'Y');
-INSERT INTO "users" VALUES (15, 'Veronica', 'veronica@phalconphp.com', '$2a$08$NQjrh9fKdMHSdpzhMj0xcOSwJQwMfpuDMzgtRyA89ADKUbsFZ94C2', 'N', 1, 'N', 'N', 'Y');
-INSERT INTO "users" VALUES (16, 'Yukimi Nagano', 'yukimi@phalconphp.com', '$2a$08$cxxpy4Jvt6Q3xGKgMWIILuf75RQDSroenvoB7L..GlXoGkVEMoSr.', 'N', 2, 'N', 'N', 'Y');
+INSERT INTO "users" VALUES (2, 'Bob Burnquist', 'bob@phalconphp.com', '$2a$08$Lx1577KNhPa9lzFYKssadetmbhaveRtCoVaOnoXXxUIhrqlCJYWCW', 'N', 1, 'N', 'N', 'Y', '', '');
+INSERT INTO "users" VALUES (14, 'Erik', 'erik@phalconphp.com', '$2a$08$f4llgFQQnhPKzpGmY1sOuuu23nYfXYM/EVOpnjjvAmbxxDxG3pbX.', 'N', 1, 'Y', 'Y', 'Y', '', '');
+INSERT INTO "users" VALUES (15, 'Veronica', 'veronica@phalconphp.com', '$2a$08$NQjrh9fKdMHSdpzhMj0xcOSwJQwMfpuDMzgtRyA89ADKUbsFZ94C2', 'N', 1, 'N', 'N', 'Y', '', '');
+INSERT INTO "users" VALUES (16, 'Yukimi Nagano', 'yukimi@phalconphp.com', '$2a$08$cxxpy4Jvt6Q3xGKgMWIILuf75RQDSroenvoB7L..GlXoGkVEMoSr.', 'N', 2, 'N', 'N', 'Y', '', '');
