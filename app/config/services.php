@@ -12,6 +12,7 @@ use Phalcon\DI\FactoryDefault,
 	Phalcon\Flash\Direct as Flash;
 
 use Vokuro\Auth\Auth,
+    Vokuro\HAuth\HAuth,
 	Vokuro\Acl\Acl,
 	Vokuro\Mail\Mail;
 
@@ -128,6 +129,13 @@ $di->set('flash', function(){
  */
 $di->set('auth', function(){
 	return new Auth();
+});
+
+/**
+ * Custom hybrid authentication component
+ */
+$di->set('hauth', function(){
+    return new HAuth();
 });
 
 /**
