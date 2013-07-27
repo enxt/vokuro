@@ -164,6 +164,10 @@ pip-log.txt
 
 app/config/config.php
 app/cache/volt/*.php
+app/cache/acl/data.txt
+app/cache/metaData/*.php
 
 #sqlite db
 *.db
+*.log
+
