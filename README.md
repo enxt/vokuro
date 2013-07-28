@@ -33,5 +33,5 @@ To run this application on your machine, you need at least:
 
 Then you'll need to create the database and initialize schema:
 
-    echo 'CREATE DATABASE vokuro' | mysql -u root
-    cat schemas/vokuro.sql | mysql -u root vokuro
+    mkdir data
+    cat schemas/vokuro.sql | sqlite  data/vokuro.db
